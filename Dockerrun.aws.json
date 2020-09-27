@@ -12,21 +12,21 @@
       "name":"server",
       "image":"vzaicevs/multi-server",
       "hostname":"api",
-      "essential":false
+      "essential":false,
       "memory": 128
     },
     {
       "name":"worker",
       "image":"vzaicevs/multi-worker",
       "hostname":"worker",
-      "essential":false
+      "essential":false,
       "memory": 128
     },
     {
       "name":"nginx",
       "image":"vzaicevs/multi-nginx",
       "essential":true,
-      "memory": 128
+      "memory": 128,
       "portMappings":[
         {
           "hostPort":80,
