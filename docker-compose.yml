@@ -3,8 +3,11 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      - POSTGRES_PASSWORD=pwd123
-      - POSTGRES_USER=complex
+      - POSTGRES_PASSWORD=postgres_pwd
+  adminer:
+    image: 'adminer'
+    ports:
+      - "8080:8080"   
   redis:
     image: 'redis:latest'
   nginx:
@@ -24,10 +27,10 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - PGUSER=complex
+      - PGUSER=postgres
       - PGHOST=postgres
       - PGDATABASE=postgres
-      - PGPASSWORD=pwd123
+      - PGPASSWORD=postgres_pwd
       - PGPORT=5432
     depends_on:
       - postgres
