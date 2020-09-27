@@ -1,0 +1,37 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_PASSWORD=postgres_pwd
+  adminer:
+    image: 'adminer'
+    ports:
+      - "8080:8080"   
+  redis:
+    image: 'redis:latest'
+  nginx:
+    image: 'vzaicevs/multi-nginx'
+    ports:
+      - "80:80"
+  api:
+    image: 'vzaicevs/multi-server'
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_pwd
+      - PGPORT=5432
+    depends_on:
+      - postgres
+  client:
+    image: "vzaicevs/multi-client"
+  worker:
+    image: "vzaicevs/multi-worker"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+
