@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t vzaicevs/complex-app-test -f ./client/Dockerfile.dev .client
+
+script:
+  - docker run vzaicevs/complex-app-test npm test -- --coverage
+ 
+after_success:
+  - docker build -t vzaicevs/multi-client ./client
+  - docker build -t vzaicevs/multi-nginx ./nginx
+  - docker build -t vzaicevs/multi-server ./server
+  - docker build -t vzaicevs/multi-worker ./worker
+  # Push theese images to Docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push vzaicevs/multi-client
+  - docker push vzaicevs/multi-nginx
+  - docker push vzaicevs/multi-server
+  - docker push vzaicevs/multi-worker
